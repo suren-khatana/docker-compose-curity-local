@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  postgresdb:
+    container_name: postgres-db
+    image: postgres-db:local
+    build: 
+      context: postgres-config
+    volumes:
+      - ./postgres-vol:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: postgres
+    restart: always
+
+  curity-idsvr-admin-runtime: 
+    container_name: curity-idsvr-admin-runtime
+    image: curity-idsvr:local
+    ports:
+      - 6749:6749
+      - 8443:8443
+    build: 
+      context: idsvr-config
+    environment:
+      ADMIN: 'true'      
+      LOGGING_LEVEL: DEBUG    
+    links:
+      - postgresdb
+    volumes:
+      - ./idsvr-config/log4j2.xml:/opt/idsvr/etc/log4j2.xml
+      - ./idsvr-config/license.json:/opt/idsvr/etc/init/license/license.json 
+      - ./idsvr-config/curity-config.xml:/opt/idsvr/etc/init/curity-config.xml
+    restart: always
+  
