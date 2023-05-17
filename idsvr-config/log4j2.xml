@@ -133,7 +133,7 @@
         log PII, keys, etc. at DEBUG and TRACE levels. -->
         <AsyncLogger name="se.curity.identityserver.crypto.CryptUtils" level="OFF"/>
         <AsyncLogger name="se.curity.identityserver.plugins.authenticators.windows.ByteLogger" level="OFF"/>
-        <AsyncLogger name="se.curity.identityserver.app.RequestReceiver" level="INFO"/>
+        <AsyncLogger name="se.curity.identityserver.app.RequestReceiver" level="{env:LOGGING_LEVEL:-INFO}"/>
 
         <AsyncLogger name="se.curity.identityserver.config" level="${env:LOGGING_LEVEL:-INFO}" additivity="false">
             <AppenderRef ref="stdout" level="WARN"/>
